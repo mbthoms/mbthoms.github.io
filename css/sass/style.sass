@@ -1,0 +1,549 @@
+// THE TABLE OF CONTENTS
+
+//    1. Variables
+//      a) Colors
+//      b) Fonts
+//  	2. Import Section
+//  	3. Basic Styles
+//  	4. Buttons
+//  	5. Header
+//  	6. Slider
+//  	7. Work
+//  	8. About
+//  	9. Contact
+//  	10. Footer
+//  	11. Scroll to Top
+//    12. Blog
+
+// 1. Variables
+
+//a) Colors
+$white-color: #fff
+$light-white-color: #f5f5f5
+$light-grey-color: #909090
+$line-grey-color: rgb(229, 229, 229)
+$white-grey-color: rgb(245, 245, 245)
+$black-color: #000
+$dark-transparent-color: rgba(0, 0, 0, 0.7)
+$transparent-color: rgba(255, 255, 255, 0)
+$copyright-color: #1c1c1c
+
+//b) Fonts
+$primary-font: "Raleway", Helvetica, Arial, sans-serif
+
+
+// 2. Import Section
+
+//Importing the Font from Google first.
+@import url("http://fonts.googleapis.com/css?family=Raleway:200,400,300,600,700&subset=latin,latin-ext")
+//Second importing bootstrap to the website.
+@import "bootstrap.scss"
+@import "owl.carousel.sass"
+@import "magnific-popup.sass"
+@import "animate.sass"
+
+// 3. Basic Styles
+
+html
+  height: 100%
+
+body
+  height: 100%
+  font-family: $primary-font
+  font-size: 14px
+  font-weight: 400
+  line-height: 1.7857
+  letter-spacing: 0.075em
+  color: #333333
+  background-color: $white-color
+
+a
+  color: $black-color
+  -webkit-transition: all 0.2s ease-in-out
+  -moz-transition: all 0.2s ease-in-out
+  -ms-transition: all 0.2s ease-in-out
+  -o-transition: all 0.2s ease-in-out
+  transition: all 0.2s ease-in-out
+  text-decoration: none
+
+p a
+  text-decoration: underline
+
+a
+  &:hover
+    color: $black-color
+    outline: 0
+    border: 0
+    text-decoration: none
+  outline: 0
+  border: 0
+  text-decoration: none
+  &:active, &:focus
+    outline: 0
+    border: 0
+    text-decoration: none
+
+button:focus
+  outline: 0
+  border: 0
+  text-decoration: none
+
+#st-preloader
+  background: $white-color
+  bottom: 0
+  left: 0
+  position: fixed
+  right: 0
+  top: 0
+  z-index: 9999
+
+p
+  line-height: 1.5
+
+h1, h2, h3, h4, h5, h6
+  font-family: $primary-font
+  font-weight: 700
+  text-transform: uppercase
+
+input, textarea
+  outline: none
+
+label
+  font-weight: 300
+
+#pre-status
+  background-image: url(../images/preloader.gif)
+  background-position: center
+  background-repeat: no-repeat
+  height: 40px
+  left: 50%
+  margin: -20px 0 0 -20px
+  position: absolute
+  top: 50%
+  width: 40px
+
+.preload-placeholder
+  background-image: url(../images/preloader.gif)
+  background-position: center
+  background-repeat: no-repeat
+  height: 40px
+  left: 50%
+  margin: -20px 0 0 -20px
+  position: absolute
+  top: 50%
+  width: 40px
+  background: none
+  left: 0
+  margin: 0
+  text-align: center
+  top: 65%
+
+.st-border
+  width: 34px
+  height: 1px
+  display: block
+  background-color: $black-color
+
+.overlay
+  background-color: $black-color
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  opacity: 0.8
+
+.work-img
+  width: auto
+  height: 500px
+
+.blog-img
+  width: 100%
+  height: auto
+
+#contact-map
+  width: 100%
+  height: 400px
+  filter: grayscale(100%)
+  scrollwheel: false
+  margin: 15px 0px -10px 0px
+
+.title-index
+  padding-top: 35px
+.grey-section
+  border-bottom: 2px solid $line-grey-color
+  border-top: 2px solid $line-grey-color
+
+  padding: 50px 10px
+  background-color: $white-grey-color
+
+// 4. Buttons
+
+.btn-send
+  background-color: $transparent-color
+  border-radius: 0
+  border: 2px solid $black-color
+  color: $black-color
+  padding: 8px 14px
+  -webkit-transition: all 0.2s ease-in-out
+  -moz-transition: all 0.2s ease-in-out
+  -ms-transition: all 0.2s ease-in-out
+  -o-transition: all 0.2s ease-in-out
+  transition: all 0.2s ease-in-out
+  &:hover
+    background-color: $black-color
+    color: $white-color
+    border: 2px solid $black-color
+
+.btn-readmore
+  background-color: $transparent-color
+  border-radius: 0
+  border: 2px solid $black-color
+  color: $black-color
+  padding: 10px 20px
+  -webkit-transition: all 0.2s ease-in-out
+  -moz-transition: all 0.2s ease-in-out
+  -ms-transition: all 0.2s ease-in-out
+  -o-transition: all 0.2s ease-in-out
+  transition: all 0.2s ease-in-out
+  &:hover
+    background-color: $black-color
+    color: $white-color
+    border: 2px solid $black-color
+
+
+.btn-hero
+  background-color: $transparent-color
+  border-radius: 0
+  border: 2px solid $white-color
+  color: $white-color
+  padding: 10px 20px
+  -webkit-transition: all 0.2s ease-in-out
+  -moz-transition: all 0.2s ease-in-out
+  -ms-transition: all 0.2s ease-in-out
+  -o-transition: all 0.2s ease-in-out
+  transition: all 0.2s ease-in-out
+  &:hover
+    background-color: $white-color
+    color: $black-color
+    border: 2px solid $white-color
+
+
+// 5. Header
+
+#header .navbar
+  min-height: 80px
+  margin-bottom: 0
+  border-radius: 0
+
+.st-navbar
+  background-color: $white-color
+  border-bottom: 1px solid $light-white-color
+  ul
+    margin-top: 15px
+    li a
+      text-transform: uppercase
+      font-weight: 600
+      padding: 0
+      margin: 14px
+      &:hover, &:focus
+        background-color: transparent
+        color: $black-color
+  .navbar-header
+    margin-top: 15px
+  .navbar-toggle
+    .icon-bar
+      background-color: $black-color
+    margin-top: 7px
+    margin-right: 25px
+    padding: 0
+    border-radius: 0
+
+.logo
+  padding-top: 0px
+  font-weight: bold
+  font-size: 20pt
+
+.first-container, #slider
+  margin-top: 80px
+
+// 6. SLIDER
+
+#home-carousel .item
+  background-position: center top
+  background-repeat: no-repeat
+  background-size: cover
+  width: 100%
+  height: 650px
+  &:before
+    background-color: $black-color
+    content: ""
+    height: 100%
+    top: 0
+    left: 0
+    opacity: 0.5
+    position: absolute
+    width: 100%
+
+.carousel-caption
+  left: 15px
+  right: 15px
+  top: 50%
+  font-size: 15px
+  text-align: left
+  color: $white-color
+  text-shadow: none
+  margin-top: -130px
+  h1
+    font-size: 46px
+    margin-bottom: 0
+    line-height: 27px
+    letter-spacing: 2px
+    font-weight: 100
+  h2
+    font-size: 81px
+    font-weight: 600
+    margin-top: 0px
+    text-transform: lowercase
+    letter-spacing: 2px
+    margin-bottom: 20px
+
+.home-carousel-left, .home-carousel-right
+  background-color: $light-white-color
+  color: $black-color
+  font-size: 32px
+  height: 40px
+  line-height: 40px
+  margin-top: -20px
+  position: absolute
+  text-align: center
+  top: 50%
+  width: 32px
+  z-index: 999
+  -webkit-transition: 300ms
+  -moz-transition: 300ms
+  -o-transition: 300ms
+  -ms-transition: 300ms
+  transition: 300ms
+
+.home-carousel-left
+  left: -32px
+
+.home-carousel-right
+  right: -32px
+
+#home-carousel
+  &:hover
+    .home-carousel-left
+      left: 0
+    .home-carousel-right
+      right: 0
+  .item
+    h1, h2, p
+      opacity: 0
+      -moz-transform: scale(0.5)
+      -webkit-transform: scale(0.5)
+      -o-transform: scale(0.5)
+      -ms-transform: scale(0.5)
+      transform: scale(0.5)
+    h1
+      -webkit-transition: all 0.5s ease-in-out 0.15s
+      -moz-transition: all 0.5s ease-in-out 0.15s
+      -ms-transition: all 0.5s ease-in-out 0.15s
+      -o-transition: all 0.5s ease-in-out 0.15s
+      transition: all 0.5s ease-in-out 0.15s
+    &.active
+      h1, h2, p
+        opacity: 1
+        -moz-transform: scale(1)
+        -webkit-transform: scale(1)
+        -o-transform: scale(1)
+        -ms-transform: scale(1)
+        transform: scale(1)
+    h2
+      -webkit-transition: all 0.5s ease-in-out 0.30s
+      -moz-transition: all 0.5s ease-in-out 0.30s
+      -ms-transition: all 0.5s ease-in-out 0.30s
+      -o-transition: all 0.5s ease-in-out 0.30s
+      transition: all 0.5s ease-in-out 0.30s
+    p
+      -webkit-transition: all 0.5s ease-in-out 0.45s
+      -moz-transition: all 0.5s ease-in-out 0.45s
+      -ms-transition: all 0.5s ease-in-out 0.45s
+      -o-transition: all 0.5s ease-in-out 0.45s
+      transition: all 0.5s ease-in-out 0.45s
+
+// 7. Work
+
+// 8. About
+
+#about-us
+  background-color: $light-white-color
+  .about-us
+    padding-left: 15%
+    padding-right: 15%
+    padding-top: 15%
+    h4
+      margin-top: 0
+      margin-bottom: 30px
+    .btn-send
+      margin-top: 30px
+  .our-office
+    padding-right: 0px
+
+.office-carousel-left, .office-carousel-right
+  background-color: $light-white-color
+  color: $black-color
+  font-size: 32px
+  height: 40px
+  line-height: 40px
+  margin-top: -20px
+  position: absolute
+  text-align: center
+  top: 50%
+  width: 32px
+  z-index: 999
+  -webkit-transition: 300ms
+  -moz-transition: 300ms
+  -o-transition: 300ms
+  -ms-transition: 300ms
+  transition: 300ms
+
+.office-carousel-left
+  left: -32px
+
+.office-carousel-right
+  right: -32px
+
+#office-carousel
+  &:hover
+    .office-carousel-left
+      left: 0
+    .office-carousel-right
+      right: 0
+  .item img
+    width: 100%
+
+.profile-img
+  border-radius: 100%
+  margin-bottom: 50px
+
+// 9. Contact
+
+#contact
+  padding-top: 130px
+  padding-bottom: 120px
+
+.contact-info
+  .contact-content
+    margin-bottom: 30px
+  p
+    margin-bottom: 20px
+    i
+      font-size: 16px
+      margin-right: 10px
+
+.contact-form
+  input
+    &[type="text"], &[type="email"]
+      border: 1px solid #E8E8E8
+      padding: 8px 14px
+      width: 100%
+      margin-bottom: 20px
+  textarea
+    border: 1px solid #E8E8E8
+    padding: 8px 14px
+    width: 100%
+    margin-bottom: 20px
+
+
+// 10. Footer
+.footer-list
+  list-style-type: none
+  padding-left: 0px
+
+.copyright
+  margin-top: 15px
+#footer
+  background-color: #262626
+  padding: 30px 0px
+  margin: 0px
+  color: rgba(255, 255, 255, 0.4)
+
+  a
+    color: rgba(255, 255, 255, 0.4)
+    &:hover
+      color: $white-color
+
+
+.footer-social-icons
+  text-align: right
+  a
+    margin: 0 5px
+    font-size: 16px
+  span
+    margin-right: 10px
+
+// 10. Scroll to Top
+
+.scroll-up
+  position: fixed
+  display: none
+  z-index: 999
+  bottom: 1.8em
+  right: 1.8em
+  ul
+    margin: 0
+    padding: 0
+  li
+    list-style: none
+    margin: 0
+    padding: 0
+  a
+    background-color: $white-color
+    display: block
+    width: 40px
+    height: 40px
+    text-align: center
+    color: $black-color
+    font-size: 20px
+    line-height: 38px
+    box-shadow: 0px 0px 6px #ccc
+    &:hover, &:active
+      background-color: $light-white-color
+      color: $black-color
+
+// 12. Blog
+
+.breadcrumb
+  margin: 20px
+.date-post-page
+  padding: 0px 0px 0px 75px
+.page-header h1
+  margin-bottom: 0px
+
+/*Navbar toggle button
+
+.navbar-toggle
+  border: none
+  background: transparent !important
+  &:hover
+    background: transparent !important
+  .icon-bar
+    width: 22px
+    transition: all 0.2s
+  .top-bar
+    transform: rotate(45deg)
+    transform-origin: 10% 10%
+  .middle-bar
+    opacity: 0
+  .bottom-bar
+    transform: rotate(-45deg)
+    transform-origin: 10% 90%
+  &.collapsed
+    .top-bar
+      transform: rotate(0)
+    .middle-bar
+      opacity: 1
+    .bottom-bar
+      transform: rotate(0)

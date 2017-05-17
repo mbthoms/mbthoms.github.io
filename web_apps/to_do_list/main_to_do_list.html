@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>To Do List</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Normalizing the page. -->
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<!-- Bringing in the styles. -->
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<!-- Bringing in the JQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+	<!-- Bringing in the JQuery -->
+	<script src="js/jquery.js" type="text/javascript" charset="UTF-8"></script>
+</head>
+
+<body>
+	<header>
+		<img src="img/logo.svg" alt="Thoms Media Mountain Logo" width="20%" height="20%" id="logo">
+		<h1>To Do List</h1>
+	</header>
+	<div id="content">
+		<div id="help">
+			<!-- This is where the help content will appear. -->
+			<h1>How to use the Web App!</h1>
+			<ol id="help_list">
+				<li>To add an item write the item in the text field below and press "Add to List" button.</li>
+				<li>To edit the item after you have added it to the list, you double click on the text you want to change and write something new.
+				</li>
+				<li>To check off an item click on the check box to the left of the item and it will turn green to tell you, you have checked it off.</li>
+				<li>To delete an item from the list you can press the delete button to the right of the list item.</li>
+			</ol>
+		</div>
+		<input type="text" id="new-text" placeholder="Write your item here..." autofocus required>
+		<br />
+		<button id="add">Add To List</button>
+		<!-- Where the to do list starts -->
+		<ul id="todolist">
+			<!-- This is where the list items go. -->
+		</ul>
+	</div>
+	<footer>
+		<p>Copyright © 2015 | Thoms Media Mountain</p>
+	</footer>
+</body>
+
+</html>

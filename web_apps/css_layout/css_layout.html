@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Matthew Thoms Demo Store Page | Project 2 Web User Interface</title>
+	<!-- Embedding font from Adobe Typekit. -->
+	<script src="//use.typekit.net/cdn7qui.js"></script>
+	<script>
+		try {
+			Typekit.load();
+		} catch (e) {}
+	</script>
+	<!-- Bringing in the CSS stylesheets. -->
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+
+<body>
+	<!-- Facebook Comment API -->
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	<!-- End of Facebook Comment API -->
+	<!-- Logo is before the Title of the page. -->
+	<header><img id="logo" src="img/final_logo_white_text.svg" alt="Logo">
+		<h1>Matthew Thoms Demo Store Page</h1>
+		<nav>
+			<ul>
+				<li id="notcurrentpage"><a href="#">Home</a></li>
+				<li id="currentpage"><a href="index.html">Products</a></li>
+				<li id="notcurrentpage"><a href="#">About</a></li>
+				<li id="notcurrentpage"><a href="#">Contact</a></li>
+			</ul>
+		</nav>
+	</header>
+	<div id="container">
+		<section id="left_side">
+			<!-- Image of the product. -->
+			<img id="boxart" src="img/WOD_xpac.png" alt="Warcraft Warlords of Draenor Standard Edition Expansion Box Art">
+			<section id="about_product">
+				<h3>About Product!</h3>
+				<h4>Warlords of Draenor features:</h4>
+				<ul>
+					<li>New continent of Draenor (7 zones, 1 PvP zone)</li>
+					<li>Build and upgrade your Garrison</li>
+					<li>A level 90 character boost</li>
+					<li>New player character models</li>
+					<li>7 new Dungeons and 2 new Raids</li>
+					<li>A Heroic version of Upper Blackrock Spire</li>
+					<li>New World Bosses</li>
+					<li>New Challenge modes</li>
+					<li>New World PvP Zone</li>
+					<li>New Scenarios</li>
+					<li>Level cap raised to 100</li>
+					<li>New class talents and permanent ability bonuses</li>
+					<li>Refined quest system with hundreds of new quests</li>
+				</ul>
+				<p>and more!</p>
+			</section>
+		</section>
+		<!-- End of Left side section. -->
+		<section id="right_side">
+			<!-- Title of the product. -->
+			<h2>World of Warcraft Warlords of Draenor Standard Edition Expansion</h2>
+			<p>by <a href="blizzard.com">Blizzard Entertainment</a></p>
+			<aside id="rating">
+				<p>Rating:</p>
+				<img src="img/rating_star_gold.png" alt="Gold Star">
+				<img src="img/rating_star_gold.png" alt="Gold Star">
+				<img src="img/rating_star_gold.png" alt="Gold Star">
+				<img src="img/rating_star_gold.png" alt="Gold Star">
+				<img src="img/rating_star_white.png" alt="White Star">
+			</aside>
+			<!-- End of rating aside. -->
+			<p id="list_price">List Price: <span>$59.99 CAD</span></p>
+			<h3 id="price">$39.99 CAD <span id="free_shipping">with Free Shipping!</span></h3>
+			<p id="save_price">You Save: $20.00 CAD</p>
+			<select>
+			<option value="en_standard">English Standard Edition</option>
+			<option value="en_collectors">English Collector's Edition</option>
+			<option value="fr_standard">French Standard Edition</option>
+			<option value="fr_collectors">French Collector's Edition</option>
+			</select>
+		</section>
+		<!-- End of Right side section. -->
+		<section id="add_to_cart_section">
+			<button id="add_to_cart_button">Add to Cart</button>
+		</section>
+		<section id="facebook_comments">
+			<div class="fb-comments" data-href="http://gc200284174.computerstudi.es/web_user_interface/project_2/index.html" data-numposts="5" data-colorscheme="light"></div>
+		</section>
+	</div>
+	<footer><small>Design Copyright © 2015 Matthew Thoms</small></footer>
+</body>
+
+</html>
