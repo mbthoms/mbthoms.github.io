@@ -116,6 +116,17 @@ textarea {
 button {
     overflow: visible
 }
+
+@media (max-width: 767px) {
+    .nav button {
+        margin-left: 0px;
+    }
+}
+
+.nav-button {
+    margin-left: 10px;
+}
+
 button,
 select {
     text-transform: none
