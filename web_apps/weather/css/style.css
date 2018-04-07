@@ -4,6 +4,12 @@ body {
   background-color: #161616;
 }
 
+.icon {
+  padding: 70px;
+  background-color: lightslategrey;
+  border-radius: 100%;
+  opacity: 50%;
+}
 .status p {
   font-size: 1.8em;
   text-transform: capitalize;
