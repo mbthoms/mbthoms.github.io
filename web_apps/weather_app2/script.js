@@ -26,14 +26,24 @@ async function getCoordinates(city) {
 // Main function that runs when the user searches for a city
 async function getWeather() {
   const city = document.getElementById('cityInput').value.trim();
+  const spinner = document.getElementById('loadingSpinner');
+  const weatherResult = document.getElementById('weatherResult');
+  const forecastContainer = document.getElementById('forecastContainer');
+  const forecastSection = document.getElementById('forecastSection');
 
   if (!city) {
     alert('Please enter a city name.');
-    document.getElementById('weatherResult').innerHTML = '';
-    document.getElementById('forecastContainer').innerHTML = '';
-    document.getElementById('forecastSection').style.display = 'none';
+    weatherResult.innerHTML = '';
+    forecastContainer.innerHTML = '';
+    forecastSection.style.display = 'none';
     return;
   }
+
+  // Show spinner
+  spinner.style.display = 'block';
+  weatherResult.innerHTML = '';
+  forecastContainer.innerHTML = '';
+  forecastSection.style.display = 'none';
 
   try {
     const { lat, lon, name, country } = await getCoordinates(city);
@@ -48,58 +58,56 @@ async function getWeather() {
 
     if (forecastData.error) throw new Error(forecastData.error.message);
 
-    console.log(JSON.stringify(forecastData, null, 2));
-
     updateCurrentWeather(forecastData.timelines.daily[0], name, country);
     updateForecast(forecastData.timelines.daily);
 
-    document.getElementById('forecastSection').style.display = 'block';
+    forecastSection.style.display = 'block';
 
   } catch (err) {
     console.error(err);
-    document.getElementById('weatherResult').innerHTML = `<p class="text-danger">${err.message}</p>`;
-    document.getElementById('forecastContainer').innerHTML = '';
-    document.getElementById('forecastSection').style.display = 'none';
+    weatherResult.innerHTML = `<p class="text-danger">${err.message}</p>`;
+    forecastContainer.innerHTML = '';
+    forecastSection.style.display = 'none';
+  } finally {
+    // Hide spinner
+    spinner.style.display = 'none';
   }
 }
 
 // Map Tomorrow.io weather codes to local SVG icon paths
 function getTomorrowIoIconUrl(code) {
   switch (code) {
-    case 1000: return 'icons/clear_day.svg';                   // Clear
-    case 1001: return 'icons/cloudy.svg';                      // Cloudy
-    case 1100: return 'icons/mostly_clear_day.svg';            // Mostly Clear
-    case 1101: return 'icons/partly_cloudy_day.svg';           // Partly Cloudy
-    case 1102: return 'icons/mostly_cloudy.svg';               // Mostly Cloudy
-    case 2000: return 'icons/fog.svg';                         // Fog
-    case 2100: return 'icons/fog_light.svg';                   // Light Fog
-    case 4000: return 'icons/drizzle.svg';                     // Drizzle
-    case 4001: return 'icons/rain.svg';                        // Rain
-    case 4200: return 'icons/rain_light.svg';                  // Light Rain
-    case 4201: return 'icons/rain_heavy.svg';                  // Heavy Rain
-    case 5000: return 'icons/snow.svg';                        // Snow
-    case 5001: return 'icons/flurries.svg';                    // Flurries
-    case 5100: return 'icons/snow_light.svg';                  // Light Snow
-    case 5101: return 'icons/snow_heavy.svg';                  // Heavy Snow
-    case 6000: return 'icons/freezing_drizzle.svg';            // Freezing Drizzle
-    case 6001: return 'icons/freezing_rain.svg';               // Freezing Rain
-    case 6200: return 'icons/freezing_rain_light.svg';         // Light Freezing Rain
-    case 6201: return 'icons/freezing_rain_heavy.svg';         // Heavy Freezing Rain
-    case 7000: return 'icons/ice_pellets.svg';                 // Ice Pellets
-    case 7101: return 'icons/ice_pellets_heavy.svg';           // Heavy Ice Pellets
-    case 7102: return 'icons/ice_pellets_light.svg';           // Light Ice Pellets
-    case 8000: return 'icons/tstorm.svg';                      // Thunderstorm
-    default: return 'icons/cloudy.svg';                        // Fallback
+    case 1000: return 'icons/clear_day.svg';
+    case 1001: return 'icons/cloudy.svg';
+    case 1100: return 'icons/mostly_clear_day.svg';
+    case 1101: return 'icons/partly_cloudy_day.svg';
+    case 1102: return 'icons/mostly_cloudy.svg';
+    case 2000: return 'icons/fog.svg';
+    case 2100: return 'icons/fog_light.svg';
+    case 4000: return 'icons/drizzle.svg';
+    case 4001: return 'icons/rain.svg';
+    case 4200: return 'icons/rain_light.svg';
+    case 4201: return 'icons/rain_heavy.svg';
+    case 5000: return 'icons/snow.svg';
+    case 5001: return 'icons/flurries.svg';
+    case 5100: return 'icons/snow_light.svg';
+    case 5101: return 'icons/snow_heavy.svg';
+    case 6000: return 'icons/freezing_drizzle.svg';
+    case 6001: return 'icons/freezing_rain.svg';
+    case 6200: return 'icons/freezing_rain_light.svg';
+    case 6201: return 'icons/freezing_rain_heavy.svg';
+    case 7000: return 'icons/ice_pellets.svg';
+    case 7101: return 'icons/ice_pellets_heavy.svg';
+    case 7102: return 'icons/ice_pellets_light.svg';
+    case 8000: return 'icons/tstorm.svg';
+    default: return 'icons/cloudy.svg';
   }
 }
-
-
 
 // Function to update the UI with current weather data
 function updateCurrentWeather(day, city, country) {
   const temp = Math.round(day.values.temperatureAvg);
   const humidity = Math.round(day.values.humidityAvg);
-
   const code = day.values.weatherCodeMax ?? 1000;
   const iconUrl = getTomorrowIoIconUrl(code);
 
@@ -132,7 +140,6 @@ function updateForecast(days) {
     const date = new Date(day.time).toLocaleDateString(undefined, { weekday: 'short' });
     const max = Math.round(day.values.temperatureMax);
     const min = Math.round(day.values.temperatureMin);
-
     const code = day.values.weatherCodeMax ?? 1000;
     const iconUrl = getTomorrowIoIconUrl(code);
 
