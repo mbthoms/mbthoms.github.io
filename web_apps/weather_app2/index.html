@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <!-- Viewport meta tag to ensure proper scaling on phones -->
+  <!-- Ensures responsive scaling on phones -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Weather App</title>
 
@@ -13,9 +13,25 @@
   <!-- Custom CSS (optional) -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Responsive stacking style for forecast -->
+  <!-- Mobile and forecast-specific responsive styles -->
   <style>
-    @media (max-width: 600px) {
+    body {
+      font-size: 1rem; /* Base readable size */
+    }
+
+    @media (max-width: 768px) {
+      body {
+        font-size: 1.1rem; /* Slightly larger text for smaller screens */
+      }
+
+      h1, h4 {
+        font-size: 1.5rem;
+      }
+
+      .container {
+        padding: 0 1rem;
+      }
+
       #forecastContainer {
         flex-direction: column !important;
         align-items: stretch !important;
@@ -23,6 +39,10 @@
 
       #forecastContainer > div {
         width: 100% !important;
+      }
+
+      .p-4 {
+        padding: 1rem !important; /* Smaller padding on mobile */
       }
     }
 
@@ -39,7 +59,7 @@
 
     <div class="row justify-content-center">
       <!-- Left column: input + current weather -->
-      <div class="col-lg-4 mb-4">
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
         <div class="p-4 shadow rounded bg-white">
           <input id="cityInput" type="text" class="form-control mb-3" placeholder="Enter city name" aria-label="City name" />
           <button id="getWeatherBtn" class="btn btn-primary w-100 mb-3">Search</button>
@@ -48,7 +68,7 @@
       </div>
 
       <!-- Right column: 7-day forecast -->
-      <div class="col-lg-7" id="forecastSection" style="display:none;">
+      <div class="col-lg-7 col-md-12" id="forecastSection" style="display:none;">
         <div class="p-4 shadow rounded bg-white">
           <h4 class="mb-3 text-center">7-Day Forecast</h4>
           <div id="forecastContainer" class="d-flex flex-wrap gap-3 justify-content-center"></div>
