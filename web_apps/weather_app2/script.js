@@ -1,15 +1,18 @@
-// Your Tomorrow.io API key used to authenticate requests to their weather service
 const tomorrowApiKey = '0RYFOTedMjha6KZ4dr49yAvhky9UzlHg';
 
-// Add event listener to the "Search" button to trigger the weather fetch
-document.getElementById('getWeatherBtn').addEventListener('click', getWeather);
+const getWeatherBtn = document.getElementById('getWeatherBtn');
+const cityInput = document.getElementById('cityInput');
+const spinner = document.getElementById('loadingSpinner');
+const weatherResult = document.getElementById('weatherResult');
+const forecastContainer = document.getElementById('forecastContainer');
+const forecastSection = document.getElementById('forecastSection');
 
-// Allow pressing Enter in the input field to trigger the weather fetch
-document.getElementById('cityInput').addEventListener('keydown', function (event) {
+getWeatherBtn.addEventListener('click', getWeather);
+
+cityInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') getWeather();
 });
 
-// Function to fetch geographic coordinates (latitude and longitude) based on city name
 async function getCoordinates(city) {
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}`;
   const res = await fetch(url);
@@ -23,13 +26,8 @@ async function getCoordinates(city) {
   return { lat: latitude, lon: longitude, name, country };
 }
 
-// Main function that runs when the user searches for a city
 async function getWeather() {
-  const city = document.getElementById('cityInput').value.trim();
-  const spinner = document.getElementById('loadingSpinner');
-  const weatherResult = document.getElementById('weatherResult');
-  const forecastContainer = document.getElementById('forecastContainer');
-  const forecastSection = document.getElementById('forecastSection');
+  const city = cityInput.value.trim();
 
   if (!city) {
     alert('Please enter a city name.');
@@ -39,7 +37,6 @@ async function getWeather() {
     return;
   }
 
-  // Show spinner
   spinner.style.display = 'block';
   weatherResult.innerHTML = '';
   forecastContainer.innerHTML = '';
@@ -69,52 +66,80 @@ async function getWeather() {
     forecastContainer.innerHTML = '';
     forecastSection.style.display = 'none';
   } finally {
-    // Hide spinner
     spinner.style.display = 'none';
   }
 }
 
-// Map Tomorrow.io weather codes to local SVG icon paths
 function getTomorrowIoIconUrl(code) {
-  switch (code) {
-    case 1000: return 'icons/clear_day.svg';
-    case 1001: return 'icons/cloudy.svg';
-    case 1100: return 'icons/mostly_clear_day.svg';
-    case 1101: return 'icons/partly_cloudy_day.svg';
-    case 1102: return 'icons/mostly_cloudy.svg';
-    case 2000: return 'icons/fog.svg';
-    case 2100: return 'icons/fog_light.svg';
-    case 4000: return 'icons/drizzle.svg';
-    case 4001: return 'icons/rain.svg';
-    case 4200: return 'icons/rain_light.svg';
-    case 4201: return 'icons/rain_heavy.svg';
-    case 5000: return 'icons/snow.svg';
-    case 5001: return 'icons/flurries.svg';
-    case 5100: return 'icons/snow_light.svg';
-    case 5101: return 'icons/snow_heavy.svg';
-    case 6000: return 'icons/freezing_drizzle.svg';
-    case 6001: return 'icons/freezing_rain.svg';
-    case 6200: return 'icons/freezing_rain_light.svg';
-    case 6201: return 'icons/freezing_rain_heavy.svg';
-    case 7000: return 'icons/ice_pellets.svg';
-    case 7101: return 'icons/ice_pellets_heavy.svg';
-    case 7102: return 'icons/ice_pellets_light.svg';
-    case 8000: return 'icons/tstorm.svg';
-    default: return 'icons/cloudy.svg';
-  }
+  const iconMap = {
+    1000: 'clear_day',
+    1001: 'cloudy',
+    1100: 'mostly_clear_day',
+    1101: 'partly_cloudy_day',
+    1102: 'mostly_cloudy',
+    2000: 'fog',
+    2100: 'fog_light',
+    4000: 'drizzle',
+    4001: 'rain',
+    4200: 'rain_light',
+    4201: 'rain_heavy',
+    5000: 'snow',
+    5001: 'flurries',
+    5100: 'snow_light',
+    5101: 'snow_heavy',
+    6000: 'freezing_drizzle',
+    6001: 'freezing_rain',
+    6200: 'freezing_rain_light',
+    6201: 'freezing_rain_heavy',
+    7000: 'ice_pellets',
+    7101: 'ice_pellets_heavy',
+    7102: 'ice_pellets_light',
+    8000: 'tstorm'
+  };
+  const filename = iconMap[code] || 'cloudy';
+  return `icons/${filename}.svg`;
 }
 
-// Function to update the UI with current weather data
+function getWeatherDescription(code) {
+  const descriptions = {
+    1000: "Clear",
+    1001: "Cloudy",
+    1100: "Mostly Clear",
+    1101: "Partly Cloudy",
+    1102: "Mostly Cloudy",
+    2000: "Fog",
+    2100: "Light Fog",
+    4000: "Drizzle",
+    4001: "Rain",
+    4200: "Light Rain",
+    4201: "Heavy Rain",
+    5000: "Snow",
+    5001: "Flurries",
+    5100: "Light Snow",
+    5101: "Heavy Snow",
+    6000: "Freezing Drizzle",
+    6001: "Freezing Rain",
+    6200: "Light Freezing Rain",
+    6201: "Heavy Freezing Rain",
+    7000: "Ice Pellets",
+    7101: "Heavy Ice Pellets",
+    7102: "Light Ice Pellets",
+    8000: "Thunderstorm"
+  };
+  return descriptions[code] || "Unknown";
+}
+
 function updateCurrentWeather(day, city, country) {
-  const temp = Math.round(day.values.temperatureAvg);
-  const humidity = Math.round(day.values.humidityAvg);
+  const temp = Math.round(day.values.temperatureAvg ?? 0);
+  const humidity = Math.round(day.values.humidityAvg ?? 0);
   const code = day.values.weatherCodeMax ?? 1000;
   const iconUrl = getTomorrowIoIconUrl(code);
+  const description = getWeatherDescription(code);
 
-  document.getElementById('weatherResult').innerHTML = `
+  weatherResult.innerHTML = `
     <h2>${city}, ${country}</h2>
-    <div style="margin: 10px 0;">
-      <img src="${iconUrl}" alt="Weather icon" style="width:64px; height:64px;" />
+    <div class="my-2">
+      <img src="${iconUrl}" alt="${description}" width="64" height="64" />
     </div>
     <h3>${temp}°C</h3>
     <p>Humidity: ${humidity}%</p>
@@ -122,33 +147,38 @@ function updateCurrentWeather(day, city, country) {
 
   if (temp < 10) {
     document.body.style.background = 'linear-gradient(to right, #007cf0, #00dfd8)';
-  } else if (temp >= 10 && temp <= 20) {
+  } else if (temp <= 20) {
     document.body.style.background = 'linear-gradient(to right, #00c851, #33b5e5)';
-  } else if (temp > 20 && temp <= 30) {
+  } else if (temp <= 30) {
     document.body.style.background = 'linear-gradient(to right, #ffbb33, #ff4444)';
   } else {
     document.body.style.background = 'linear-gradient(to right, #d50000, #ff6f00)';
   }
 }
 
-// Function to update the 7-day weather forecast UI
 function updateForecast(days) {
-  const forecastContainer = document.getElementById('forecastContainer');
   forecastContainer.innerHTML = '';
 
   days.forEach(day => {
-    const date = new Date(day.time).toLocaleDateString(undefined, { weekday: 'short' });
-    const max = Math.round(day.values.temperatureMax);
-    const min = Math.round(day.values.temperatureMin);
+    const date = new Date(day.time).toLocaleDateString(undefined, {
+      weekday: 'short',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    const max = Math.round(day.values.temperatureMax ?? 0);
+    const min = Math.round(day.values.temperatureMin ?? 0);
     const code = day.values.weatherCodeMax ?? 1000;
     const iconUrl = getTomorrowIoIconUrl(code);
+    const description = getWeatherDescription(code);
 
     const div = document.createElement('div');
-    div.className = 'p-2 text-center border rounded bg-light';
+    div.className = 'p-2 text-center border rounded bg-light mx-1';
     div.style.width = '100px';
     div.innerHTML = `
-      <div>${date}</div>
-      <div><img src="${iconUrl}" alt="Forecast icon" style="width:32px; height:32px;" /></div>
+      <div><strong>${date}</strong></div>
+      <div><img src="${iconUrl}" alt="${description}" width="32" height="32" /></div>
+      <div style="font-size: 0.85rem;">${description}</div>
       <div>${min}° / ${max}°C</div>
     `;
 
