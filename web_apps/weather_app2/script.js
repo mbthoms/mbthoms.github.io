@@ -1,5 +1,7 @@
+// Your API key for accessing Tomorrow.io weather data
 const tomorrowApiKey = '0RYFOTedMjha6KZ4dr49yAvhky9UzlHg';
 
+// DOM element references
 const getWeatherBtn = document.getElementById('getWeatherBtn');
 const cityInput = document.getElementById('cityInput');
 const spinner = document.getElementById('loadingSpinner');
@@ -7,41 +9,52 @@ const weatherResult = document.getElementById('weatherResult');
 const forecastContainer = document.getElementById('forecastContainer');
 const forecastSection = document.getElementById('forecastSection');
 
+// Event listener for button click to fetch weather
 getWeatherBtn.addEventListener('click', getWeather);
+
+// Allow pressing "Enter" in input field to trigger weather fetch
 cityInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') getWeather();
 });
 
+// Fetch geographical coordinates for a given city using Open-Meteo's geocoding API
 async function getCoordinates(city) {
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}`;
   const res = await fetch(url);
   const data = await res.json();
 
+  // Handle case where city is not found
   if (!data.results || data.results.length === 0) {
     throw new Error('City not found. Please check the name and try again.');
   }
 
+  // Return latitude, longitude, and display name of the location
   const { latitude, longitude, name, country } = data.results[0];
   return { lat: latitude, lon: longitude, name, country };
 }
 
+// Main function to fetch and display weather information
 async function getWeather() {
   const city = cityInput.value.trim();
 
+  // Validate input
   if (!city) {
     alert('Please enter a city name.');
     resetUI();
     return;
   }
 
+  // Show loading spinner and disable inputs
   spinner.style.display = 'block';
   cityInput.disabled = true;
   getWeatherBtn.disabled = true;
   resetUI();
 
   try {
+    // Get location coordinates
     const { lat, lon, name, country } = await getCoordinates(city);
 
+    // Prepare query parameters for Tomorrow.io API
     const params = new URLSearchParams({
       location: `${lat},${lon}`,
       timesteps: '1d',
@@ -58,28 +71,33 @@ async function getWeather() {
       ].join(',')
     });
 
+    // Fetch forecast data
     const forecastUrl = `https://api.tomorrow.io/v4/weather/forecast?${params.toString()}`;
-
     const forecastResponse = await fetch(forecastUrl, {
       headers: { apikey: tomorrowApiKey }
     });
 
     const forecastData = await forecastResponse.json();
 
+    // Handle API error response
     if (forecastData.error) throw new Error(forecastData.error.message);
 
     const days = forecastData.timelines?.daily ?? [];
     if (!days.length) throw new Error('No forecast data available.');
 
+    // Display current weather and forecast
     updateCurrentWeather(days[0], name, country);
     updateForecast(days);
-
     forecastSection.style.display = 'block';
+
   } catch (err) {
+    // Handle errors and display message to user
     console.error(err);
     weatherResult.innerHTML = `<p class="text-danger">${err.message}</p>`;
     forecastSection.style.display = 'none';
+
   } finally {
+    // Reset UI state
     spinner.style.display = 'none';
     cityInput.disabled = false;
     getWeatherBtn.disabled = false;
@@ -87,12 +105,14 @@ async function getWeather() {
   }
 }
 
+// Clears weather and forecast output from the page
 function resetUI() {
   weatherResult.innerHTML = '';
   forecastContainer.innerHTML = '';
   forecastSection.style.display = 'none';
 }
 
+// Maps Tomorrow.io weather code to icon filenames
 function getTomorrowIoIconUrl(code) {
   const iconMap = {
     1000: 'clear_day',
@@ -123,6 +143,7 @@ function getTomorrowIoIconUrl(code) {
   return `icons/${filename}.svg`;
 }
 
+// Maps Tomorrow.io weather code to human-readable description
 function getWeatherDescription(code) {
   const descriptions = {
     1000: "Clear",
@@ -152,6 +173,7 @@ function getWeatherDescription(code) {
   return descriptions[code] || "Unknown";
 }
 
+// Updates the UI with current weather details
 function updateCurrentWeather(day, city, country) {
   const temp = Math.round(day.values.temperatureAvg ?? 0);
   const humidity = Math.round(day.values.humidityAvg ?? 0);
@@ -161,6 +183,7 @@ function updateCurrentWeather(day, city, country) {
   const iconUrl = getTomorrowIoIconUrl(code);
   const description = getWeatherDescription(code);
 
+  // Inject weather data into the DOM
   weatherResult.innerHTML = `
     <h2>${city}, ${country}</h2>
     <div class="my-2">
@@ -174,11 +197,14 @@ function updateCurrentWeather(day, city, country) {
   `;
 }
 
+// Populates the 7-day forecast UI cards
 function updateForecast(days) {
   forecastContainer.innerHTML = '';
 
+  // Check if user's system prefers dark mode
   const prefersDarkMode = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches;
 
+  // Skip the first day (already displayed) and iterate over remaining days
   days.slice(1).forEach(day => {
     const date = new Date(day.time).toLocaleDateString(undefined, {
       weekday: 'short',
@@ -195,13 +221,16 @@ function updateForecast(days) {
     const iconUrl = getTomorrowIoIconUrl(code);
     const description = getWeatherDescription(code);
 
+    // Create forecast card element
     const div = document.createElement('div');
     div.className = 'forecast-card';
 
+    // Add light mode styles if applicable
     if (!prefersDarkMode) {
       div.classList.add('bg-white', 'text-dark', 'shadow-sm');
     }
 
+    // Inject forecast data into card
     div.innerHTML = `
       <div><strong>${date}</strong></div>
       <img src="${iconUrl}" alt="${description}" class="weather-icon" />

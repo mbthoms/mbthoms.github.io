@@ -1,18 +1,30 @@
 /* ---------- GLOBAL BODY STYLES ---------- */
 body {
+  /* Use Arial as the primary font with sans-serif fallback */
   font-family: 'Arial', sans-serif;
+
+  /* Set a fixed background image covering the full viewport */
   background: url('img/background.jpg') no-repeat center center fixed;
   background-size: cover;
-  /* background-color: #000; Fallback */
+
+  /* Minimum height ensures body takes full height of the viewport */
   min-height: 100vh;
+
+  /* Default text color is white */
   color: #fff;
+
+  /* Smooth transition effect for background changes */
   transition: background 0.6s ease;
+
+  /* Ensure proper stacking and layout */
   position: relative;
   z-index: 0;
+
+  /* Prevent horizontal scrolling */
   overflow-x: hidden;
 }
 
-/* Overlay for better contrast */
+/* Overlay for better contrast on top of the background image */
 body::before {
   content: '';
   position: fixed;
@@ -20,69 +32,103 @@ body::before {
   left: 0;
   right: 0;
   bottom: 0;
+
+  /* Semi-transparent black overlay */
   background: rgba(0, 0, 0, 0.5);
+
+  /* Positioned behind the main content */
   z-index: -1;
+
+  /* Allows mouse clicks to pass through the overlay */
   pointer-events: none;
 }
 
 /* ---------- INPUT + BUTTON STYLES ---------- */
 input#cityInput {
+  /* Inner spacing and font size for the input field */
   padding: 10px;
   font-size: 16px;
+
+  /* Translucent background for glass effect */
   background: rgba(255, 255, 255, 0.2);
+
+  /* Light border with some transparency */
   border: 1px solid rgba(255, 255, 255, 0.3);
+
+  /* White text */
   color: #fff;
+
+  /* Rounded corners */
   border-radius: 12px;
+
+  /* Blur effect behind the input */
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px); /* For Safari */
 }
 
+/* Style for placeholder text */
 input#cityInput::placeholder {
   color: rgba(255, 255, 255, 0.6);
 }
 
+/* Weather button styling */
 button#getWeatherBtn {
   font-size: 16px;
   padding: 10px;
+
+  /* Light translucent background */
   background-color: rgba(255, 255, 255, 0.25);
   color: #fff;
+
+  /* Border to match input style */
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
+
+  /* Smooth background transition on hover */
   transition: background 0.3s ease;
 }
 
+/* Hover state for the button */
 button#getWeatherBtn:hover {
   background-color: rgba(255, 255, 255, 0.35);
 }
 
 /* ---------- WEATHER RESULT ---------- */
 #weatherResult {
+  /* Slightly larger text and centered content */
   font-size: 18px;
   text-align: center;
 }
 
 /* ---------- FORECAST CONTAINER ---------- */
 #forecastContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
+  display: flex;          /* Flex layout for cards */
+  flex-wrap: wrap;        /* Allow items to wrap to next line */
+  gap: 1rem;              /* Space between forecast cards */
+  justify-content: center;/* Center-align forecast cards */
 }
 
+/* Individual forecast cards */
 #forecastContainer .forecast-card {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 12px;
-  width: 100px;
-  text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.15);  /* Semi-transparent card */
+  border-radius: 12px;                    /* Rounded corners */
+  padding: 12px;                          /* Inner spacing */
+  width: 100px;                           /* Fixed width */
+  text-align: center;                     /* Center text */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);/* Shadow for depth */
+
+  /* Glass blur effect */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
+
+  /* Subtle animation on hover */
   transition: transform 0.2s ease;
 }
 
+/* Raise card slightly on hover */
 #forecastContainer .forecast-card:hover {
   transform: translateY(-5px);
 }
@@ -93,6 +139,8 @@ button#getWeatherBtn:hover {
   width: 48px;
   height: 48px;
   margin: 5px 0;
+
+  /* Ensure images scale and don’t distort */
   object-fit: contain;
   display: inline-block;
 }
@@ -104,12 +152,19 @@ button#getWeatherBtn:hover {
   border-radius: 16px;
   padding: 1rem;
   color: #fff;
+
+  /* Soft shadow for 3D effect */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+  /* Glassmorphism blur */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+
+  /* Smooth transition on interaction */
   transition: all 0.3s ease-in-out;
 }
 
+/* Reusable input style with glass effect */
 .glass-input {
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -119,11 +174,13 @@ button#getWeatherBtn:hover {
   -webkit-backdrop-filter: blur(6px);
 }
 
+/* Placeholder color for glass input */
 .glass-input::placeholder {
   color: rgba(255, 255, 255, 0.6);
 }
 
 /* ---------- UTILITY OVERRIDES ---------- */
+/* Forces white background, used to override glass/dark styles */
 .bg-white {
   background-color: white !important;
 }
