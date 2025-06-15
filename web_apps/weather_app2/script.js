@@ -206,7 +206,8 @@ function updateForecast(days) {
       <div><strong>${date}</strong></div>
       <img src="${iconUrl}" alt="${description}" class="weather-icon" />
       <div style="font-size: 0.85rem;">${description}</div>
-      <div><i class="fa-solid fa-temperature-half"></i>    ${min}° / ${max}°C</div>
+      <div>L:${min}<sup>°</sup></div>
+      <div>H:${max}<sup>°</sup></div>
       <div><i class="fa-solid fa-droplet"></i>   ${humidity}%</div>
       <div><i class="fa-solid fa-wind"></i>    ${wind} km/h</div>
       <div><i class="fa-solid fa-cloud-rain"></i>    ${precipitation} mm</div>
