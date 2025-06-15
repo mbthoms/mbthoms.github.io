@@ -2,185 +2,72 @@
 <html lang="en">
 
 <head>
-  <!-- Meta tags for character encoding and responsive behavior -->
+  <!-- Meta tags -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <!-- Page title -->
   <title>Weather</title>
 
-  <!-- Bootstrap CSS for layout and styling -->
+  <!-- Bootstrap CSS -->
   <link href="bootstrap.min.css" rel="stylesheet" />
-  
-  <!-- Font Awesome for weather icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Font Awesome (with proper integrity hash or leave it out if not needed) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Embedded styles -->
-  <style>
-    /* Base body styles with background image and fallback color */
-    body {
-      background-image: url('img/background.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      min-height: 100vh;
-      font-family: 'Segoe UI', sans-serif;
-      color: #fff;
-      position: relative;
-      z-index: 0;
-      background-color: #222;
-    }
-
-    /* Overlay for contrast (darkens background slightly) */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: -1;
-    }
-
-    /* Reusable glass-card style (glassmorphism effect) */
-    .glass-card {
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      background-color: rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 1.5rem;
-      color: #fff;
-    }
-
-    /* Forecast container card width settings */
-    #forecastContainer > div {
-      min-width: 100px;
-      flex: 1 0 auto;
-    }
-
-    /* Responsive styles for smaller screens */
-    @media (max-width: 768px) {
-      body {
-        font-size: 1.1rem;
-      }
-
-      h1, h4 {
-        font-size: 1.5rem;
-      }
-
-      .container {
-        padding: 0 1rem;
-      }
-
-      /* Stack forecast cards vertically on small screens */
-      #forecastContainer {
-        flex-direction: column !important;
-        align-items: stretch !important;
-      }
-
-      #forecastContainer > div {
-        width: 100% !important;
-      }
-
-      /* Adjust padding */
-      .p-4 {
-        padding: 1rem !important;
-      }
-    }
-
-    /* Accessibility: hides element visually but keeps it available for screen readers */
-    .visually-hidden {
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      padding: 0 !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      clip: rect(0, 0, 0, 0) !important;
-      white-space: nowrap !important;
-      border: 0 !important;
-    }
-  </style>
 </head>
 
-<body>
-  <!-- Main container -->
+<body class="text-light">
+
+  <!-- Main Container -->
   <div class="container mt-5">
     <div class="row justify-content-center">
 
-      <!-- City input and current weather display -->
+      <!-- Input + Current Weather Card -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
         <div class="glass-card">
           <h1 class="text-center mb-4">Weather</h1>
 
-          <!-- City input field -->
+          <!-- City Input Field -->
           <input id="cityInput" type="text" class="form-control mb-3 glass-input" placeholder="Enter city name" aria-label="City name" />
 
-          <!-- Search button -->
+          <!-- Search Button -->
           <button id="getWeatherBtn" class="btn btn-light w-100 mb-3">Search</button>
 
-          <!-- Loading spinner, hidden by default -->
+          <!-- Spinner -->
           <div id="loadingSpinner" class="text-center my-3" style="display: none;">
             <div class="spinner-border text-light" role="status" aria-hidden="true"></div>
             <span class="visually-hidden">Loading...</span>
           </div>
 
-          <!-- Weather result placeholder -->
+          <!-- Weather Result Display -->
           <div id="weatherResult" class="text-center text-light"></div>
         </div>
       </div>
 
-      <!-- 7-Day Forecast display section (hidden initially) -->
-      <div class="col-lg-8 col-md-12" id="forecastSection" style="display:none;">
+      <!-- 7-Day Forecast Section -->
+      <div class="col-lg-8 col-md-12" id="forecastSection" style="display: none;">
         <div class="glass-card">
           <h4 class="mb-3 text-center">7-Day Forecast</h4>
-
-          <!-- Container for forecast cards -->
           <div id="forecastContainer" class="d-flex flex-wrap gap-3 justify-content-center text-light"></div>
         </div>
       </div>
+
     </div>
   </div>
 
-  <!-- Bootstrap JavaScript bundle -->
+  <!-- Bootstrap Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Custom script -->
+  <!-- Custom Script -->
   <script src="script.js"></script>
 
-  <script>
-    // Override the default updateCurrentWeather function to inject extra details
-    const originalUpdate = window.updateCurrentWeather;
-
-    window.updateCurrentWeather = function(day, city, country) {
-      // Extract weather data with nullish coalescing fallback
-      const temp = Math.round(day.values.temperatureAvg ?? 0);
-      const humidity = Math.round(day.values.humidityAvg ?? 0);
-      const wind = Math.round(day.values.windSpeedAvg ?? 0);
-      const precipitation = Math.round(day.values.precipitationSum ?? 0);
-      const code = day.values.weatherCodeMax ?? 1000;
-
-      // Get appropriate icon and description
-      const iconUrl = getTomorrowIoIconUrl(code);
-      const description = getWeatherDescription(code);
-
-      // Inject HTML into weather result container
-      weatherResult.innerHTML = `
-        <h2>${city}, ${country}</h2>
-        <div class="my-2">
-          <img src="${iconUrl}" alt="${description}" width="64" height="64" class="weather-icon" />
-        </div>
-        <h3>${temp}<sup>°C</sup></h3>
-        <p>Humidity <i class="fa-solid fa-droplet"></i> ${humidity}%</p>
-        <p>Wind <i class="fa-solid fa-cloud-rain"></i>  ${wind} km/h</p>
-        <p>Precipitation <i class="fa-solid fa-wind"></i> ${precipitation} mm</p>
-        <p>${description}</p>
-      `;
-    };
-  </script>
+  <!-- Fallback for users without JavaScript -->
+  <noscript>
+    <div class="alert alert-danger text-center m-4">
+      This site requires JavaScript to function. Please enable it in your browser.
+    </div>
+  </noscript>
 </body>
 
 </html>
