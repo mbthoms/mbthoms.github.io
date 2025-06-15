@@ -3,20 +3,51 @@
 
 <head>
   <meta charset="UTF-8" />
-  <!-- Ensures responsive scaling on phones -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Weather</title>
 
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Custom CSS (optional) -->
+  <!-- Custom Styles -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Mobile and forecast-specific responsive styles -->
   <style>
     body {
-      font-size: 1rem;
+      background-image: url('img/background.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      position: relative;
+      z-index: 0;
+      background-color: #222;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+
+    .glass-card {
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 1.5rem;
+      color: #fff;
+    }
+
+    #forecastContainer > div {
+      min-width: 100px;
+      flex: 1 0 auto;
     }
 
     @media (max-width: 768px) {
@@ -38,7 +69,7 @@
         align-items: stretch !important;
       }
 
-      #forecastContainer>div {
+      #forecastContainer > div {
         width: 100% !important;
       }
 
@@ -47,46 +78,51 @@
       }
     }
 
-    #forecastContainer>div {
-      min-width: 100px;
-      flex: 1 0 auto;
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
     }
   </style>
 </head>
 
-<body class="bg-light">
+<body>
   <div class="container mt-5">
-    <h1 class="text-center mb-4">Weather</h1>
-
     <div class="row justify-content-center">
-      <!-- Left column: input + current weather -->
+      <!-- City Input & Current Weather -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-        <div class="p-4 shadow rounded bg-white">
-          <input id="cityInput" type="text" class="form-control mb-3" placeholder="Enter city name" aria-label="City name" />
-          <button id="getWeatherBtn" class="btn btn-primary w-100 mb-3">Search</button>
+        <div class="glass-card">
+          <h1 class="text-center mb-4">Weather</h1>
+          <input id="cityInput" type="text" class="form-control mb-3 glass-input" placeholder="Enter city name" aria-label="City name" />
+          <button id="getWeatherBtn" class="btn btn-light w-100 mb-3">Search</button>
 
-          <!-- Spinner added here -->
+          <!-- Spinner -->
           <div id="loadingSpinner" class="text-center my-3" style="display: none;">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
+            <div class="spinner-border text-light" role="status" aria-hidden="true"></div>
+            <span class="visually-hidden">Loading...</span>
           </div>
 
-          <div id="weatherResult" class="text-center"></div>
+          <div id="weatherResult" class="text-center text-light"></div>
         </div>
       </div>
 
-      <!-- Right column: 7-day forecast -->
+      <!-- Forecast Section -->
       <div class="col-lg-8 col-md-12" id="forecastSection" style="display:none;">
-        <div class="p-4 shadow rounded bg-white">
+        <div class="glass-card">
           <h4 class="mb-3 text-center">7-Day Forecast</h4>
-          <div id="forecastContainer" class="d-flex flex-wrap gap-3 justify-content-center"></div>
+          <div id="forecastContainer" class="d-flex flex-wrap gap-3 justify-content-center text-light"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Bootstrap + JS logic -->
+  <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
 </body>

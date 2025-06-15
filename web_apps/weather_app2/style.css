@@ -1,72 +1,129 @@
-/* style.css */
-
-/* Base styles for the entire page */
+/* ---------- GLOBAL BODY STYLES ---------- */
 body {
-  font-family: 'Arial', sans-serif;   /* Use Arial font with fallback to sans-serif */
-  transition: background 0.6s ease;   /* Smooth transition effect for background changes */
-  background: #f0f0f0;                 /* Light grey background color */
-  min-height: 100vh;                   /* Minimum height to fill full viewport height */
+  font-family: 'Arial', sans-serif;
+  background: url('img/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  /* background-color: #000; Fallback */
+  min-height: 100vh;
+  color: #fff;
+  transition: background 0.6s ease;
+  position: relative;
+  z-index: 0;
+  overflow-x: hidden;
 }
 
-/* Styles for the current weather result text container */
+/* Overlay for better contrast */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ---------- INPUT + BUTTON STYLES ---------- */
+input#cityInput {
+  padding: 10px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+input#cityInput::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+button#getWeatherBtn {
+  font-size: 16px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  transition: background 0.3s ease;
+}
+
+button#getWeatherBtn:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
+/* ---------- WEATHER RESULT ---------- */
 #weatherResult {
-  font-size: 18px;      /* Slightly larger font size for readability */
-  text-align: center;   /* Center align the text */
+  font-size: 18px;
+  text-align: center;
 }
 
-/* Container that holds all forecast day cards */
+/* ---------- FORECAST CONTAINER ---------- */
 #forecastContainer {
-  display: flex;          /* Use flexbox for layout */
-  flex-wrap: wrap;        /* Allow items to wrap to next line if needed */
-  gap: 1rem;              /* Space between each forecast card */
-  justify-content: center;/* Center the forecast cards horizontally */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
 }
 
-/* Individual forecast day card styling */
 #forecastContainer .forecast-card {
-  background: #ffffff;                       /* White background for the card */
-  border-radius: 8px;                        /* Rounded corners */
-  padding: 12px;                            /* Padding inside the card */
-  width: 100px;                             /* Fixed width for uniform cards */
-  text-align: center;                       /* Center content inside the card */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* Subtle shadow for depth */
-  transition: transform 0.2s ease;          /* Smooth transform animation */
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 12px;
+  width: 100px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease;
 }
 
-/* Hover effect for forecast cards */
 #forecastContainer .forecast-card:hover {
-  transform: translateY(-5px);  /* Move card up slightly when hovered */
+  transform: translateY(-5px);
 }
 
-/* ---- Removed styling for i icons inside forecast cards ---- */
-/* #forecastContainer i {
-  font-size: 24px;
-  margin: 5px 0;
-} */
-
-/* New styles for Tomorrow.io weather icons (img tags) */
+/* ---------- WEATHER ICONS ---------- */
 #weatherResult img.weather-icon,
 #forecastContainer img.weather-icon {
-  width: 48px;          /* Set icon width */
-  height: 48px;         /* Set icon height */
-  margin: 5px 0;        /* Vertical margin */
-  object-fit: contain;  /* Ensure icon scales nicely */
-  display: inline-block; /* Inline-block for alignment */
+  width: 48px;
+  height: 48px;
+  margin: 5px 0;
+  object-fit: contain;
+  display: inline-block;
 }
 
-/* Styling for the city input field */
-input#cityInput {
-  padding: 10px;         /* Add padding inside the input */
-  font-size: 16px;       /* Medium font size for text input */
+/* ---------- GLASS EFFECT COMPONENTS ---------- */
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  padding: 1rem;
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s ease-in-out;
 }
 
-/* Styling for the search button */
-button#getWeatherBtn {
-  font-size: 16px;       /* Medium font size */
-  padding: 10px;         /* Padding inside the button */
+.glass-input {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-/* Utility class to force white background color */
+.glass-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ---------- UTILITY OVERRIDES ---------- */
 .bg-white {
-  background-color: white !important;  /* Override other background colors if needed */
+  background-color: white !important;
 }

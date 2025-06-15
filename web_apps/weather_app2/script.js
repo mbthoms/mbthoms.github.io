@@ -8,7 +8,6 @@ const forecastContainer = document.getElementById('forecastContainer');
 const forecastSection = document.getElementById('forecastSection');
 
 getWeatherBtn.addEventListener('click', getWeather);
-
 cityInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') getWeather();
 });
@@ -19,7 +18,7 @@ async function getCoordinates(city) {
   const data = await res.json();
 
   if (!data.results || data.results.length === 0) {
-    throw new Error('City not found');
+    throw new Error('City not found. Please check the name and try again.');
   }
 
   const { latitude, longitude, name, country } = data.results[0];
@@ -31,21 +30,33 @@ async function getWeather() {
 
   if (!city) {
     alert('Please enter a city name.');
-    weatherResult.innerHTML = '';
-    forecastContainer.innerHTML = '';
-    forecastSection.style.display = 'none';
+    resetUI();
     return;
   }
 
   spinner.style.display = 'block';
-  weatherResult.innerHTML = '';
-  forecastContainer.innerHTML = '';
-  forecastSection.style.display = 'none';
+  cityInput.disabled = true;
+  getWeatherBtn.disabled = true;
+  resetUI();
 
   try {
     const { lat, lon, name, country } = await getCoordinates(city);
 
-    const forecastUrl = `https://api.tomorrow.io/v4/weather/forecast?location=${lat},${lon}&timesteps=1d&units=metric&fields=temperatureMax,temperatureMin,temperatureAvg,humidityAvg,weatherCodeMax,weatherCodeMin`;
+    const params = new URLSearchParams({
+      location: `${lat},${lon}`,
+      timesteps: '1d',
+      units: 'metric',
+      fields: [
+        'temperatureMax',
+        'temperatureMin',
+        'temperatureAvg',
+        'humidityAvg',
+        'weatherCodeMax',
+        'weatherCodeMin'
+      ].join(',')
+    });
+
+    const forecastUrl = `https://api.tomorrow.io/v4/weather/forecast?${params.toString()}`;
 
     const forecastResponse = await fetch(forecastUrl, {
       headers: { apikey: tomorrowApiKey }
@@ -55,19 +66,29 @@ async function getWeather() {
 
     if (forecastData.error) throw new Error(forecastData.error.message);
 
-    updateCurrentWeather(forecastData.timelines.daily[0], name, country);
-    updateForecast(forecastData.timelines.daily);
+    const days = forecastData.timelines?.daily ?? [];
+    if (!days.length) throw new Error('No forecast data available.');
+
+    updateCurrentWeather(days[0], name, country);
+    updateForecast(days);
 
     forecastSection.style.display = 'block';
-
   } catch (err) {
     console.error(err);
     weatherResult.innerHTML = `<p class="text-danger">${err.message}</p>`;
-    forecastContainer.innerHTML = '';
     forecastSection.style.display = 'none';
   } finally {
     spinner.style.display = 'none';
+    cityInput.disabled = false;
+    getWeatherBtn.disabled = false;
+    cityInput.focus();
   }
+}
+
+function resetUI() {
+  weatherResult.innerHTML = '';
+  forecastContainer.innerHTML = '';
+  forecastSection.style.display = 'none';
 }
 
 function getTomorrowIoIconUrl(code) {
@@ -139,30 +160,23 @@ function updateCurrentWeather(day, city, country) {
   weatherResult.innerHTML = `
     <h2>${city}, ${country}</h2>
     <div class="my-2">
-      <img src="${iconUrl}" alt="${description}" width="64" height="64" />
+      <img src="${iconUrl}" alt="${description}" width="64" height="64" class="weather-icon" />
     </div>
     <h3>${temp}°C</h3>
     <p>Humidity: ${humidity}%</p>
+    <p>${description}</p>
   `;
-
-  if (temp < 10) {
-    document.body.style.background = 'linear-gradient(to right, #007cf0, #00dfd8)';
-  } else if (temp <= 20) {
-    document.body.style.background = 'linear-gradient(to right, #00c851, #33b5e5)';
-  } else if (temp <= 30) {
-    document.body.style.background = 'linear-gradient(to right, #ffbb33, #ff4444)';
-  } else {
-    document.body.style.background = 'linear-gradient(to right, #d50000, #ff6f00)';
-  }
 }
 
 function updateForecast(days) {
   forecastContainer.innerHTML = '';
 
-  days.forEach(day => {
+  const prefersDarkMode = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches;
+
+  days.slice(1).forEach(day => {
     const date = new Date(day.time).toLocaleDateString(undefined, {
       weekday: 'short',
-      month: 'long',
+      month: 'short',
       day: 'numeric'
     });
 
@@ -173,11 +187,15 @@ function updateForecast(days) {
     const description = getWeatherDescription(code);
 
     const div = document.createElement('div');
-    div.className = 'p-2 text-center border rounded bg-light mx-1';
-    div.style.width = '100px';
+    div.className = 'forecast-card';
+
+    if (!prefersDarkMode) {
+      div.classList.add('bg-white', 'text-dark', 'shadow-sm');
+    }
+
     div.innerHTML = `
       <div><strong>${date}</strong></div>
-      <div><img src="${iconUrl}" alt="${description}" width="32" height="32" /></div>
+      <img src="${iconUrl}" alt="${description}" class="weather-icon" />
       <div style="font-size: 0.85rem;">${description}</div>
       <div>${min}° / ${max}°C</div>
     `;
