@@ -52,7 +52,9 @@ async function getWeather() {
         'temperatureAvg',
         'humidityAvg',
         'weatherCodeMax',
-        'weatherCodeMin'
+        'weatherCodeMin',
+        'windSpeedAvg',
+        'precipitationSum'
       ].join(',')
     });
 
@@ -153,6 +155,8 @@ function getWeatherDescription(code) {
 function updateCurrentWeather(day, city, country) {
   const temp = Math.round(day.values.temperatureAvg ?? 0);
   const humidity = Math.round(day.values.humidityAvg ?? 0);
+  const wind = Math.round(day.values.windSpeedAvg ?? 0);
+  const precipitation = Math.round(day.values.precipitationSum ?? 0);
   const code = day.values.weatherCodeMax ?? 1000;
   const iconUrl = getTomorrowIoIconUrl(code);
   const description = getWeatherDescription(code);
@@ -163,8 +167,10 @@ function updateCurrentWeather(day, city, country) {
       <img src="${iconUrl}" alt="${description}" width="64" height="64" class="weather-icon" />
     </div>
     <h3>${temp}°C</h3>
-    <p>Humidity: ${humidity}%</p>
     <p>${description}</p>
+    <p><i class="fa-solid fa-droplet"></i> Humidity: ${humidity}%</p>
+    <p><i class="fa-solid fa-wind"></i> Wind: ${wind} km/h</p>
+    <p><i class="fa-solid fa-cloud-rain"></i> Precipitation: ${precipitation} mm</p>
   `;
 }
 
@@ -182,6 +188,9 @@ function updateForecast(days) {
 
     const max = Math.round(day.values.temperatureMax ?? 0);
     const min = Math.round(day.values.temperatureMin ?? 0);
+    const humidity = Math.round(day.values.humidityAvg ?? 0);
+    const wind = Math.round(day.values.windSpeedAvg ?? 0);
+    const precipitation = Math.round(day.values.precipitationSum ?? 0);
     const code = day.values.weatherCodeMax ?? 1000;
     const iconUrl = getTomorrowIoIconUrl(code);
     const description = getWeatherDescription(code);
@@ -197,7 +206,10 @@ function updateForecast(days) {
       <div><strong>${date}</strong></div>
       <img src="${iconUrl}" alt="${description}" class="weather-icon" />
       <div style="font-size: 0.85rem;">${description}</div>
-      <div>${min}° / ${max}°C</div>
+      <div><i class="fa-solid fa-temperature-half"></i>    ${min}° / ${max}°C</div>
+      <div><i class="fa-solid fa-droplet"></i>   ${humidity}%</div>
+      <div><i class="fa-solid fa-wind"></i>    ${wind} km/h</div>
+      <div><i class="fa-solid fa-cloud-rain"></i>    ${precipitation} mm</div>
     `;
 
     forecastContainer.appendChild(div);
