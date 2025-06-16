@@ -10,17 +10,17 @@
   <!-- Bootstrap CSS -->
   <link href="bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Font Awesome (with proper integrity hash or leave it out if not needed) -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class="text-light">
+<body class="text-light d-flex flex-column min-vh-100">
 
   <!-- Main Container -->
-  <div class="container mt-5">
+  <div class="container mt-5 mb-4 flex-grow-1">
     <div class="row justify-content-center">
 
       <!-- Input + Current Weather Card -->
@@ -49,18 +49,28 @@
       <div class="col-lg-8 col-md-12" id="forecastSection" style="display: none;">
         <div class="glass-card">
           <h4 class="mb-3 text-center">7-Day Forecast</h4>
-          <div id="forecastContainer" class="d-flex flex-wrap gap-3 justify-content-center text-light"></div>
+          <div id="forecastContainer" class="d-flex flex-column gap-3 text-light"></div>
         </div>
       </div>
 
     </div>
   </div>
 
+  <!-- Footer -->
+  <footer class="text-center text-light py-3 glass-card border-top">
+    &copy; <span id="currentYear"></span> Matthew Th. All rights reserved.
+  </footer>
+
   <!-- Bootstrap Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Custom Script -->
   <script src="script.js"></script>
+
+  <!-- Set Current Year in Footer -->
+  <script>
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+  </script>
 
   <!-- Fallback for users without JavaScript -->
   <noscript>
