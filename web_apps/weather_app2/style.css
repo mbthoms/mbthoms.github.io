@@ -21,31 +21,6 @@ body::before {
   pointer-events: none;
 }
 
-/* ---------- FIXED SEARCH CARD ---------- */
-.fixed-search {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 1000;
-  width: 320px;
-}
-
-@media (max-width: 768px) {
-  .fixed-search {
-    position: static;
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-}
-
-/* ---------- CENTER SEARCH WHEN NO FORECAST ---------- */
-.center-search {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
 /* ---------- INPUT + BUTTON STYLES ---------- */
 input#cityInput,
 .glass-input {
@@ -88,6 +63,7 @@ button#getWeatherBtn:hover {
 #forecastContainer {
   display: flex;
   flex-direction: column;
+  /* vertical layout */
   gap: 1rem;
   justify-content: flex-start;
   align-items: stretch;
@@ -121,6 +97,7 @@ button#getWeatherBtn:hover {
   width: 48px;
   height: 48px;
   margin: 0 auto 10px auto;
+  /* Center horizontally and add bottom margin */
   display: block;
   object-fit: contain;
 }
@@ -158,7 +135,7 @@ button#getWeatherBtn:hover {
     padding: 0 1rem;
   }
 
-  #forecastContainer > div {
+  #forecastContainer>div {
     width: 100% !important;
   }
 
