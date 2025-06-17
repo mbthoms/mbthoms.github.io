@@ -17,12 +17,16 @@ body::before {
   left: 0;
   height: 100vh;
   width: 100vw;
-  background: url('img/background.jpg') no-repeat center center;
+  background-image: url('img/background.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
   background-size: cover;
   background-color: #222;
   z-index: -2;
   pointer-events: none;
-  transform: translateZ(0); /* Force GPU acceleration for mobile devices */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 body::after {
