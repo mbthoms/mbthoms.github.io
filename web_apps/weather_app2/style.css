@@ -156,3 +156,40 @@ button#getWeatherBtn:hover {
   white-space: nowrap !important;
   border: 0 !important;
 }
+footer.glass-card {
+  border-radius: 0 !important;
+}
+
+.glass-navbar {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+.glass-navbar .navbar-nav .nav-link {
+  color: white !important;
+}
+
+.glass-navbar .navbar-brand {
+  color: white !important;
+}
+
+.glass-navbar .navbar-brand:hover,
+.glass-navbar .navbar-brand:focus {
+  color: #ddd !important;
+}
+
+.glass-navbar .navbar-nav .nav-link.active {
+  text-decoration: underline;
+}
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
