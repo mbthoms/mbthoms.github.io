@@ -142,6 +142,11 @@ button#getWeatherBtn:hover {
   .p-4 {
     padding: 1rem !important;
   }
+
+  /* ---------- MOBILE NAVBAR FIX ---------- */
+  .glass-navbar {
+    background-color: rgba(0, 0, 0, 0.85) !important;
+  }
 }
 
 /* ---------- ACCESSIBILITY ---------- */
